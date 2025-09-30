@@ -1156,7 +1156,14 @@ export default function App() {
             <div className="preview-field">
               <label htmlFor="email-subject">Subject line</label>
               <div className="preview-field-controls">
-                <input id="email-subject" value={emailSubject} readOnly />
+                <div className="preview-protected-input">
+                  <input id="email-subject" value={emailSubject} readOnly />
+                  <div
+                    className="interaction-shield interaction-shield--input"
+                    aria-hidden="true"
+                    title="Use the copy subject button to copy"
+                  />
+                </div>
                 <button className="button secondary" type="button" onClick={handleCopySubject}>
                   Copy subject
                 </button>
@@ -1173,7 +1180,14 @@ export default function App() {
                   {copyStatus.body && <span className="copy-status">{copyStatus.body}</span>}
                 </div>
               </div>
-              <div className="preview-body-content" dangerouslySetInnerHTML={{ __html: emailBodyHtml }} />
+              <div className="preview-body-content-wrapper">
+                <div className="preview-body-content" dangerouslySetInnerHTML={{ __html: emailBodyHtml }} />
+                <div
+                  className="interaction-shield interaction-shield--body"
+                  aria-hidden="true"
+                  title="Use the copy formatted body button to copy"
+                />
+              </div>
               <details className="preview-plaintext">
                 <summary>Plain text fallback</summary>
                 <textarea value={emailBodyText} readOnly />

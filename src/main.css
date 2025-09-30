@@ -415,8 +415,14 @@ body {
   flex-wrap: wrap;
 }
 
-.preview-field-controls input {
+.preview-protected-input {
+  position: relative;
   flex: 1 1 240px;
+  border-radius: 14px;
+}
+
+.preview-protected-input input {
+  width: 100%;
   background: rgba(14, 20, 42, 0.75);
   border: 1px solid rgba(124, 143, 255, 0.3);
   border-radius: 14px;
@@ -425,10 +431,33 @@ body {
   font-size: 1rem;
 }
 
-.preview-field-controls input:focus {
+.preview-protected-input input:focus {
   outline: none;
   border-color: var(--accent-strong);
   box-shadow: 0 0 0 3px rgba(108, 140, 255, 0.25);
+}
+
+.interaction-shield {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  cursor: not-allowed;
+  pointer-events: auto;
+  user-select: none;
+  background: transparent;
+}
+
+.preview-body-content-wrapper {
+  position: relative;
+  border-radius: 18px;
+}
+
+.interaction-shield--body {
+  border-radius: 18px;
+}
+
+.interaction-shield--input {
+  border-radius: 14px;
 }
 
 .copy-status {
