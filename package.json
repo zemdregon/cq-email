@@ -1,0 +1,27 @@
+{
+  "name": "cq-email",
+  "version": "1.0.0",
+  "description": "make a react based nice looking UI using elements from https://reactbits.dev/ and make dropdowns for the following information: Which manor? (Options: Holbrook, Smith) which personnel are late but accounted for? (allow adding multiple entries here each containing Last Name, First Name, rank (E-1 through E-4), room number (will contain a letter) and notes, which personnel are accounted for but not in the system (same entry format as the last question), which personnel were in a different phase in the system (allow input for last name, first name, phase in system (Remedial, Phase I, Phase II, and Phase III), and current phase (same phases as phase in system), which personnel are outprocessed but still on the roster (last name, first name, date outprocessed, with date picker), then additional notes, with individual entries for each additional note, sentence format, then ask for the users last name, middle initial, first name, rank (options are AB, AMN, A1C, and SrA) make a worker.js to serve this with cloudflare workers.",
+  "main": "src/main.jsx",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@cloudflare/kv-asset-handler": "^0.4.0",
+    "@react-spring/web": "^10.0.3",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-spring": "^10.0.3",
+    "reactbits-npm": "^1.0.7"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.0.4",
+    "vite": "^7.1.7"
+  }
+}

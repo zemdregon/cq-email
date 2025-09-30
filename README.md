@@ -1,1 +1,32 @@
-make a react based nice looking UI using elements from https://reactbits.dev/ and make dropdowns for the following information: Which manor? (Options: Holbrook, Smith) which personnel are late but accounted for? (allow adding multiple entries here each containing Last Name, First Name, rank (E-1 through E-4), room number (will contain a letter) and notes, which personnel are accounted for but not in the system (same entry format as the last question), which personnel were in a different phase in the system (allow input for last name, first name, phase in system (Remedial, Phase I, Phase II, and Phase III), and current phase (same phases as phase in system), which personnel are outprocessed but still on the roster (last name, first name, date outprocessed, with date picker), then additional notes, with individual entries for each additional note, sentence format, then ask for the users last name, middle initial, first name, rank (options are AB, AMN, A1C, and SrA) make a worker.js to serve this with cloudflare workers.
+# Manor Accountability Dashboard
+
+A React interface inspired by animations from [React Bits](https://reactbits.dev/) for tracking dorm accountability scenarios.
+The UI leans on an adapted `BlurText` component from the React Bits library to add animated section prompts.
+
+## Getting started
+
+```bash
+npm install
+npm run dev
+```
+
+The development server listens on port `5173` by default. Visit `http://localhost:5173` to explore the dashboard.
+
+## Available scripts
+
+- `npm run dev` – start the Vite development server.
+- `npm run build` – generate an optimized production build in `dist/`.
+- `npm run preview` – preview the built assets locally.
+
+## Cloudflare Worker
+
+A `worker.js` file is included for serving the static assets with Cloudflare Workers KV storage. After running
+`npm run build`, upload the generated `dist` directory to `__STATIC_CONTENT` and deploy the worker.
+
+```js
+import worker from './worker.js';
+export default worker;
+```
+
+The worker uses `@cloudflare/kv-asset-handler` and expects `__STATIC_CONTENT` and
+`__STATIC_CONTENT_MANIFEST` bindings to be configured in your `wrangler.toml`.
