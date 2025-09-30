@@ -20,13 +20,16 @@ The development server listens on port `5173` by default. Visit `http://localhos
 
 ## Cloudflare Worker
 
-A `worker.js` file is included for serving the static assets with Cloudflare Workers KV storage. After running
-`npm run build`, upload the generated `dist` directory to `__STATIC_CONTENT` and deploy the worker.
+A `worker.js` file is included for serving the static assets with Cloudflare Workers. The repository ships with a
+`wrangler.toml` that binds the `dist/` output directory as `__STATIC_CONTENT` and runs `npm run build` automatically
+before each deploy.
 
-```js
-import worker from './worker.js';
-export default worker;
+The worker reads the generated Vite manifest and rewrites the development `<script type="module" src="/src/main.jsx">`
+tag to the hashed production bundle at runtime. This ensures the browser receives a real JavaScript module even if the
+HTML file still references the development entry, preventing the `text/jsx` MIME type error seen previously.
+
+```bash
+wrangler deploy
 ```
 
-The worker uses `@cloudflare/kv-asset-handler` and expects `__STATIC_CONTENT` and
-`__STATIC_CONTENT_MANIFEST` bindings to be configured in your `wrangler.toml`.
+The command above builds the assets, uploads the `dist/` contents, and deploys the Worker in one step.
