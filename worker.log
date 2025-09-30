@@ -1,0 +1,150 @@
+2025-09-30T06:23:31.961Z	Initializing build environment...
+2025-09-30T06:23:57.431Z	Success: Finished initializing build environment
+2025-09-30T06:23:58.159Z	Cloning repository...
+2025-09-30T06:23:59.352Z	Detected the following tools from environment: npm@10.9.2, nodejs@22.16.0
+2025-09-30T06:23:59.353Z	Restoring from dependencies cache
+2025-09-30T06:23:59.355Z	Restoring from build output cache
+2025-09-30T06:24:02.137Z	Success: Dependencies restored from build cache.
+2025-09-30T06:24:02.138Z	Installing project dependencies: npm clean-install --progress=false
+2025-09-30T06:24:03.750Z	npm warn ERESOLVE overriding peer dependency
+2025-09-30T06:24:03.755Z	npm warn While resolving: @react-spring/zdog@10.0.3
+2025-09-30T06:24:03.755Z	npm warn Found: react@19.1.1
+2025-09-30T06:24:03.755Z	npm warn node_modules/react
+2025-09-30T06:24:03.755Z	npm warn   react@"^19.1.1" from the root project
+2025-09-30T06:24:03.755Z	npm warn   20 more (@react-native/virtualized-lists, ...)
+2025-09-30T06:24:03.755Z	npm warn
+2025-09-30T06:24:03.755Z	npm warn Could not resolve dependency:
+2025-09-30T06:24:03.755Z	npm warn peer react@"^16.8.0 || ^17.0.0 || ^18.0.0" from @react-spring/zdog@10.0.3
+2025-09-30T06:24:03.755Z	npm warn node_modules/react-spring/node_modules/@react-spring/zdog
+2025-09-30T06:24:03.755Z	npm warn   @react-spring/zdog@"~10.0.3" from react-spring@10.0.3
+2025-09-30T06:24:03.755Z	npm warn   node_modules/react-spring
+2025-09-30T06:24:03.755Z	npm warn
+2025-09-30T06:24:03.755Z	npm warn Conflicting peer dependency: react@18.3.1
+2025-09-30T06:24:03.755Z	npm warn node_modules/react
+2025-09-30T06:24:03.755Z	npm warn   peer react@"^16.8.0 || ^17.0.0 || ^18.0.0" from @react-spring/zdog@10.0.3
+2025-09-30T06:24:03.755Z	npm warn   node_modules/react-spring/node_modules/@react-spring/zdog
+2025-09-30T06:24:03.755Z	npm warn     @react-spring/zdog@"~10.0.3" from react-spring@10.0.3
+2025-09-30T06:24:03.756Z	npm warn     node_modules/react-spring
+2025-09-30T06:24:03.758Z	npm warn ERESOLVE overriding peer dependency
+2025-09-30T06:24:03.758Z	npm warn While resolving: @react-spring/zdog@10.0.3
+2025-09-30T06:24:03.758Z	npm warn Found: react-dom@19.1.1
+2025-09-30T06:24:03.758Z	npm warn node_modules/react-dom
+2025-09-30T06:24:03.758Z	npm warn   react-dom@"^19.1.1" from the root project
+2025-09-30T06:24:03.758Z	npm warn   5 more (@react-spring/web, @react-three/fiber, react-konva, ...)
+2025-09-30T06:24:03.759Z	npm warn
+2025-09-30T06:24:03.759Z	npm warn Could not resolve dependency:
+2025-09-30T06:24:03.759Z	npm warn peer react-dom@"^16.8.0 || ^17.0.0 || ^18.0.0" from @react-spring/zdog@10.0.3
+2025-09-30T06:24:03.759Z	npm warn node_modules/react-spring/node_modules/@react-spring/zdog
+2025-09-30T06:24:03.759Z	npm warn   @react-spring/zdog@"~10.0.3" from react-spring@10.0.3
+2025-09-30T06:24:03.759Z	npm warn   node_modules/react-spring
+2025-09-30T06:24:03.759Z	npm warn
+2025-09-30T06:24:03.759Z	npm warn Conflicting peer dependency: react-dom@18.3.1
+2025-09-30T06:24:03.759Z	npm warn node_modules/react-dom
+2025-09-30T06:24:03.759Z	npm warn   peer react-dom@"^16.8.0 || ^17.0.0 || ^18.0.0" from @react-spring/zdog@10.0.3
+2025-09-30T06:24:03.759Z	npm warn   node_modules/react-spring/node_modules/@react-spring/zdog
+2025-09-30T06:24:03.759Z	npm warn     @react-spring/zdog@"~10.0.3" from react-spring@10.0.3
+2025-09-30T06:24:03.759Z	npm warn     node_modules/react-spring
+2025-09-30T06:23:31.961Z	Initializing build environment...
+2025-09-30T06:23:57.431Z	Success: Finished initializing build environment
+2025-09-30T06:23:58.159Z	Cloning repository...
+2025-09-30T06:23:59.352Z	Detected the following tools from environment: npm@10.9.2, nodejs@22.16.0
+2025-09-30T06:23:59.353Z	Restoring from dependencies cache
+2025-09-30T06:23:59.355Z	Restoring from build output cache
+2025-09-30T06:24:02.137Z	Success: Dependencies restored from build cache.
+2025-09-30T06:24:02.138Z	Installing project dependencies: npm clean-install --progress=false
+2025-09-30T06:24:03.750Z	npm warn ERESOLVE overriding peer dependency
+2025-09-30T06:24:03.755Z	npm warn While resolving: @react-spring/zdog@10.0.3
+2025-09-30T06:24:03.755Z	npm warn Found: react@19.1.1
+2025-09-30T06:24:03.755Z	npm warn node_modules/react
+2025-09-30T06:24:03.755Z	npm warn   react@"^19.1.1" from the root project
+2025-09-30T06:24:03.755Z	npm warn   20 more (@react-native/virtualized-lists, ...)
+2025-09-30T06:24:03.755Z	npm warn
+2025-09-30T06:24:03.755Z	npm warn Could not resolve dependency:
+2025-09-30T06:24:03.755Z	npm warn peer react@"^16.8.0 || ^17.0.0 || ^18.0.0" from @react-spring/zdog@10.0.3
+2025-09-30T06:24:03.755Z	npm warn node_modules/react-spring/node_modules/@react-spring/zdog
+2025-09-30T06:24:03.755Z	npm warn   @react-spring/zdog@"~10.0.3" from react-spring@10.0.3
+2025-09-30T06:24:03.755Z	npm warn   node_modules/react-spring
+2025-09-30T06:24:03.755Z	npm warn
+2025-09-30T06:24:03.755Z	npm warn Conflicting peer dependency: react@18.3.1
+2025-09-30T06:24:03.755Z	npm warn node_modules/react
+2025-09-30T06:24:03.755Z	npm warn   peer react@"^16.8.0 || ^17.0.0 || ^18.0.0" from @react-spring/zdog@10.0.3
+2025-09-30T06:24:03.755Z	npm warn   node_modules/react-spring/node_modules/@react-spring/zdog
+2025-09-30T06:24:03.755Z	npm warn     @react-spring/zdog@"~10.0.3" from react-spring@10.0.3
+2025-09-30T06:24:03.756Z	npm warn     node_modules/react-spring
+2025-09-30T06:24:03.758Z	npm warn ERESOLVE overriding peer dependency
+2025-09-30T06:24:03.758Z	npm warn While resolving: @react-spring/zdog@10.0.3
+2025-09-30T06:24:03.758Z	npm warn Found: react-dom@19.1.1
+2025-09-30T06:24:03.758Z	npm warn node_modules/react-dom
+2025-09-30T06:24:03.758Z	npm warn   react-dom@"^19.1.1" from the root project
+2025-09-30T06:24:03.758Z	npm warn   5 more (@react-spring/web, @react-three/fiber, react-konva, ...)
+2025-09-30T06:24:03.759Z	npm warn
+2025-09-30T06:24:03.759Z	npm warn Could not resolve dependency:
+2025-09-30T06:24:03.759Z	npm warn peer react-dom@"^16.8.0 || ^17.0.0 || ^18.0.0" from @react-spring/zdog@10.0.3
+2025-09-30T06:24:03.759Z	npm warn node_modules/react-spring/node_modules/@react-spring/zdog
+2025-09-30T06:24:03.759Z	npm warn   @react-spring/zdog@"~10.0.3" from react-spring@10.0.3
+2025-09-30T06:24:03.759Z	npm warn   node_modules/react-spring
+2025-09-30T06:24:03.759Z	npm warn
+2025-09-30T06:24:03.759Z	npm warn Conflicting peer dependency: react-dom@18.3.1
+2025-09-30T06:24:03.759Z	npm warn node_modules/react-dom
+2025-09-30T06:24:03.759Z	npm warn   peer react-dom@"^16.8.0 || ^17.0.0 || ^18.0.0" from @react-spring/zdog@10.0.3
+2025-09-30T06:24:03.759Z	npm warn   node_modules/react-spring/node_modules/@react-spring/zdog
+2025-09-30T06:24:03.759Z	npm warn     @react-spring/zdog@"~10.0.3" from react-spring@10.0.3
+2025-09-30T06:24:03.759Z	npm warn     node_modules/react-spring
+2025-09-30T06:24:08.540Z	npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+2025-09-30T06:24:08.605Z	npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+2025-09-30T06:24:08.653Z	npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-09-30T06:24:19.443Z	
+2025-09-30T06:24:19.444Z	added 381 packages, and audited 382 packages in 17s
+2025-09-30T06:24:19.445Z	
+2025-09-30T06:24:19.445Z	32 packages are looking for funding
+2025-09-30T06:24:19.445Z	  run `npm fund` for details
+2025-09-30T06:24:19.445Z	
+2025-09-30T06:24:19.445Z	found 0 vulnerabilities
+2025-09-30T06:24:19.524Z	Executing user deploy command: npx wrangler deploy
+2025-09-30T06:24:21.364Z	
+2025-09-30T06:24:21.364Z	 ⛅️ wrangler 4.40.2
+2025-09-30T06:24:21.365Z	───────────────────
+2025-09-30T06:24:21.378Z	[custom build] Running: npm run build
+2025-09-30T06:24:21.541Z	[custom build] 
+2025-09-30T06:24:21.542Z	[custom build] > cq-email@1.0.0 build
+2025-09-30T06:24:21.542Z	[custom build] > vite build
+2025-09-30T06:24:21.542Z	[custom build] 
+2025-09-30T06:24:21.542Z	[custom build] 
+2025-09-30T06:24:21.751Z	[custom build] vite v7.1.7 building for production...
+2025-09-30T06:24:21.751Z	[custom build] 
+2025-09-30T06:24:21.829Z	[custom build] transforming...
+2025-09-30T06:24:21.830Z	[custom build] 
+2025-09-30T06:24:22.915Z	[custom build] ✓ 38 modules transformed.
+2025-09-30T06:24:22.915Z	[custom build] 
+2025-09-30T06:24:23.102Z	[custom build] rendering chunks...
+2025-09-30T06:24:23.103Z	[custom build] 
+2025-09-30T06:24:23.115Z	[custom build] computing gzip size...
+2025-09-30T06:24:23.115Z	[custom build] 
+2025-09-30T06:24:23.126Z	[custom build] dist/.vite/manifest.json          0.19 kB │ gzip:  0.14 kB
+2025-09-30T06:24:23.126Z	[custom build] 
+2025-09-30T06:24:23.127Z	[custom build] dist/index.html                   1.15 kB │ gzip:  0.60 kB
+2025-09-30T06:24:23.127Z	[custom build] 
+2025-09-30T06:24:23.130Z	[custom build] dist/assets/index-DCcG9yfH.css    5.34 kB │ gzip:  1.71 kB
+2025-09-30T06:24:23.130Z	[custom build] dist/assets/index-BKuqUI6i.js   244.39 kB │ gzip: 79.16 kB
+2025-09-30T06:24:23.130Z	[custom build] 
+2025-09-30T06:24:23.130Z	[custom build] ✓ built in 1.34s
+2025-09-30T06:24:23.130Z	[custom build] 
+2025-09-30T06:24:25.224Z	🌀 Building list of assets...
+2025-09-30T06:24:25.225Z	✨ Read 6 files from the assets directory /opt/buildhome/repo/dist
+2025-09-30T06:24:25.234Z	🌀 Starting asset upload...
+2025-09-30T06:24:29.147Z	No updated asset files to upload. Proceeding with deployment...
+2025-09-30T06:24:29.150Z	Total Upload: 58.33 KiB / gzip: 15.64 KiB
+2025-09-30T06:24:33.801Z	Worker Startup Time: 6 ms
+2025-09-30T06:24:33.802Z	Your Worker has access to the following bindings:
+2025-09-30T06:24:33.802Z	Binding                      Resource      
+2025-09-30T06:24:33.802Z	env.__STATIC_CONTENT         Assets        
+2025-09-30T06:24:33.803Z	
+2025-09-30T06:24:33.803Z	Uploaded cq (9.15 sec)
+2025-09-30T06:24:35.141Z	Deployed cq triggers (1.34 sec)
+2025-09-30T06:24:35.142Z	  https://cq.lmao.workers.dev
+2025-09-30T06:24:35.142Z	Current Version ID: 38d4ff33-2341-4d7a-8543-aa66ba069f94
+2025-09-30T06:24:35.144Z	
+2025-09-30T06:24:35.144Z	Cloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md
+2025-09-30T06:24:35.240Z	Success: Deploy command completed
+2025-09-30T06:24:35.244Z	Skipping build output cache as it's not supported for your project
+2025-09-30T06:24:35.447Z	✨ Success! Build completed.
