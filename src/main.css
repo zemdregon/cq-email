@@ -60,6 +60,40 @@ body {
   gap: 18px;
 }
 
+.hero-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.progress-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.progress-track {
+  width: 100%;
+  height: 8px;
+  background: rgba(92, 111, 190, 0.3);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(135deg, rgba(132, 160, 255, 0.95), rgba(76, 110, 255, 0.95));
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
 .glow-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -70,6 +104,46 @@ body {
   display: flex;
   flex-direction: column;
   gap: 24px;
+}
+
+.wizard-card {
+  gap: clamp(24px, 5vw, 32px);
+}
+
+.step-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.step-title {
+  margin: 0;
+  font-size: clamp(1.4rem, 2.2vw, 1.75rem);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.step-description {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.step-label {
+  font-size: 0.78rem;
+}
+
+.option-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.prompt-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 .section-header {
@@ -212,6 +286,31 @@ body {
   background: rgba(255, 107, 129, 0.24);
 }
 
+.button.option {
+  width: 100%;
+  justify-content: center;
+  background: rgba(47, 62, 117, 0.85);
+  color: var(--text-primary);
+  border: 1px solid rgba(132, 160, 255, 0.35);
+}
+
+.button.option:hover {
+  transform: translateY(-1px);
+  background: rgba(59, 78, 146, 0.95);
+}
+
+.button.option.selected {
+  background: linear-gradient(135deg, rgba(132, 160, 255, 0.95), rgba(76, 110, 255, 0.95));
+  color: #0b1023;
+  border-color: transparent;
+  box-shadow: 0 12px 24px rgba(101, 131, 255, 0.45);
+}
+
+.prompt-actions .button.option {
+  flex: 1 1 140px;
+  max-width: 220px;
+}
+
 .add-row {
   display: flex;
   justify-content: flex-end;
@@ -220,6 +319,24 @@ body {
 .notes-list {
   display: grid;
   gap: 16px;
+}
+
+.wizard-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.wizard-control-left,
+.wizard-control-right {
+  display: flex;
+  gap: 12px;
+}
+
+.wizard-control-right {
+  margin-left: auto;
 }
 
 @media (max-width: 720px) {
@@ -237,6 +354,10 @@ body {
 
   .field-grid {
     grid-template-columns: 1fr;
+  }
+
+  .prompt-actions {
+    width: 100%;
   }
 }
 
