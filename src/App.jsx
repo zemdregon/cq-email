@@ -6,19 +6,28 @@ const rankOptions = ['E-1', 'E-2', 'E-3', 'E-4'];
 const phaseOptions = ['Remedial', 'Phase I', 'Phase II', 'Phase III'];
 const memberRankOptions = ['AB', 'AMN', 'A1C', 'SrA'];
 
-const createPersonnelEntry = () => ({
+const createLateEntry = () => ({
   lastName: '',
   firstName: '',
   rank: '',
   room: '',
+  timeAccounted: '',
   notes: ''
+});
+
+const createOfflineEntry = () => ({
+  lastName: '',
+  firstName: '',
+  rank: '',
+  room: ''
 });
 
 const createPhaseEntry = () => ({
   lastName: '',
   firstName: '',
+  room: '',
   systemPhase: '',
-  currentPhase: ''
+  actualPhase: ''
 });
 
 const createOutprocessedEntry = () => ({
@@ -59,11 +68,11 @@ const stepTitles = {
 
 export default function App() {
   const [manor, setManor] = useState('');
-  const [lateAccounted, setLateAccounted] = useState([createPersonnelEntry()]);
+  const [lateAccounted, setLateAccounted] = useState([createLateEntry()]);
   const [notInSystem, setNotInSystem] = useState([]);
   const [phaseMismatches, setPhaseMismatches] = useState([]);
   const [outprocessed, setOutprocessed] = useState([]);
-  const [notes, setNotes] = useState([createNoteEntry()]);
+  const [notes, setNotes] = useState([]);
 
   const [includeLate, setIncludeLate] = useState(null);
   const [includeNotInSystem, setIncludeNotInSystem] = useState(null);
@@ -203,15 +212,15 @@ export default function App() {
             case 'latePrompt':
               return 'Let us know if anyone checked in after the scheduled accountability time.';
             case 'lateDetails':
-              return 'Capture who arrived late, where they stay, and any context you gathered.';
+              return 'Capture who arrived late, when they checked in, where they stay, and any context you gathered.';
             case 'notPrompt':
               return 'Confirm whether you need to document Airmen who are present but not showing in the system roster.';
             case 'notDetails':
-              return 'Share details on how accountability was confirmed for each Airman missing from the system.';
+              return 'List the roster information for Airmen accounted for offline so the system can be corrected.';
             case 'phasePrompt':
               return 'Identify if any Airmen are listed in a different phase than their current status.';
             case 'phaseDetails':
-              return 'Provide the correct phase information so the roster can be updated.';
+              return 'Provide the room number and actual phase so the roster can be updated.';
             case 'outPrompt':
               return 'Let us know if anyone has outprocessed but is still appearing on the roster.';
             case 'outDetails':
@@ -277,10 +286,10 @@ export default function App() {
             {renderPromptButtons(includeLate, value => {
               setIncludeLate(value);
               if (value && lateAccounted.length === 0) {
-                setLateAccounted([createPersonnelEntry()]);
+                setLateAccounted([createLateEntry()]);
               }
               if (!value) {
-                setLateAccounted([createPersonnelEntry()]);
+                setLateAccounted([createLateEntry()]);
               }
             })}
           </>
@@ -338,6 +347,15 @@ export default function App() {
                         placeholder="B214"
                       />
                     </div>
+                    <div className="field">
+                      <label htmlFor={`late-time-${index}`}>Time Accounted For</label>
+                      <input
+                        id={`late-time-${index}`}
+                        type="time"
+                        value={entry.timeAccounted}
+                        onChange={event => updateEntries(lateAccounted, setLateAccounted, index, 'timeAccounted', event.target.value)}
+                      />
+                    </div>
                   </div>
                   <div className="field">
                     <label htmlFor={`late-notes-${index}`}>Notes</label>
@@ -361,7 +379,11 @@ export default function App() {
                 </div>
               ))}
               <div className="add-row">
-                <button className="button secondary" type="button" onClick={() => setLateAccounted([...lateAccounted, createPersonnelEntry()])}>
+                <button
+                  className="button secondary"
+                  type="button"
+                  onClick={() => setLateAccounted([...lateAccounted, createLateEntry()])}
+                >
                   Add late accountability
                 </button>
               </div>
@@ -375,7 +397,7 @@ export default function App() {
             {renderPromptButtons(includeNotInSystem, value => {
               setIncludeNotInSystem(value);
               if (value && notInSystem.length === 0) {
-                setNotInSystem([createPersonnelEntry()]);
+                setNotInSystem([createOfflineEntry()]);
               }
               if (!value) {
                 setNotInSystem([]);
@@ -437,15 +459,6 @@ export default function App() {
                       />
                     </div>
                   </div>
-                  <div className="field">
-                    <label htmlFor={`not-notes-${index}`}>Notes</label>
-                    <textarea
-                      id={`not-notes-${index}`}
-                      value={entry.notes}
-                      onChange={event => updateEntries(notInSystem, setNotInSystem, index, 'notes', event.target.value)}
-                      placeholder="Verified by Element Leader during room check."
-                    />
-                  </div>
                   <div className="entry-actions">
                     <button className="button destructive" type="button" onClick={() => removeEntry(notInSystem, setNotInSystem, index)}>
                       Remove entry
@@ -454,7 +467,11 @@ export default function App() {
                 </div>
               ))}
               <div className="add-row">
-                <button className="button secondary" type="button" onClick={() => setNotInSystem([...notInSystem, createPersonnelEntry()])}>
+                <button
+                  className="button secondary"
+                  type="button"
+                  onClick={() => setNotInSystem([...notInSystem, createOfflineEntry()])}
+                >
                   Add accounted entry
                 </button>
               </div>
@@ -504,6 +521,15 @@ export default function App() {
                       />
                     </div>
                     <div className="field">
+                      <label htmlFor={`phase-room-${index}`}>Room Number</label>
+                      <input
+                        id={`phase-room-${index}`}
+                        value={entry.room}
+                        onChange={event => updateEntries(phaseMismatches, setPhaseMismatches, index, 'room', event.target.value)}
+                        placeholder="C305"
+                      />
+                    </div>
+                    <div className="field">
                       <label htmlFor={`phase-system-${index}`}>Phase in System</label>
                       <select
                         id={`phase-system-${index}`}
@@ -521,11 +547,11 @@ export default function App() {
                       </select>
                     </div>
                     <div className="field">
-                      <label htmlFor={`phase-current-${index}`}>Current Phase</label>
+                      <label htmlFor={`phase-actual-${index}`}>Actual Phase</label>
                       <select
-                        id={`phase-current-${index}`}
-                        value={entry.currentPhase}
-                        onChange={event => updateEntries(phaseMismatches, setPhaseMismatches, index, 'currentPhase', event.target.value)}
+                        id={`phase-actual-${index}`}
+                        value={entry.actualPhase}
+                        onChange={event => updateEntries(phaseMismatches, setPhaseMismatches, index, 'actualPhase', event.target.value)}
                       >
                         <option value="" disabled>
                           Select phase
@@ -614,7 +640,7 @@ export default function App() {
               ))}
               <div className="add-row">
                 <button className="button secondary" type="button" onClick={() => setOutprocessed([...outprocessed, createOutprocessedEntry()])}>
-                  Add roster cleanup
+                  Add out-processed Airman
                 </button>
               </div>
             </div>
