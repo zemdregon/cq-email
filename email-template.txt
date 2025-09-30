@@ -1,0 +1,24 @@
+# Subject Line
+manorname Accountability <date formatted as 30 Sep>
+
+# Email body
+MTLs,
+
+The following personnel were late but accounted for:
+
+
+The following personnel were accounted for but not in the system:
+
+
+The following personnel were in a different phase in the system:
+
+
+The following personnel are out-processed but still on the roster:
+
+
+Notes:
+
+First, MI, Last, Rank, USAF
+Head CQ
+336 TRS
+Keesler AFB, MS
