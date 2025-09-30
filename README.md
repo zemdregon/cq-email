@@ -1,1 +1,35 @@
-make a react based nice looking UI using elements from https://reactbits.dev/ and make dropdowns for the following information: Which manor? (Options: Holbrook, Smith) which personnel are late but accounted for? (allow adding multiple entries here each containing Last Name, First Name, rank (E-1 through E-4), room number (will contain a letter) and notes, which personnel are accounted for but not in the system (same entry format as the last question), which personnel were in a different phase in the system (allow input for last name, first name, phase in system (Remedial, Phase I, Phase II, and Phase III), and current phase (same phases as phase in system), which personnel are outprocessed but still on the roster (last name, first name, date outprocessed, with date picker), then additional notes, with individual entries for each additional note, sentence format, then ask for the users last name, middle initial, first name, rank (options are AB, AMN, A1C, and SrA) make a worker.js to serve this with cloudflare workers.
+# Manor Accountability Dashboard
+
+A React interface inspired by animations from [React Bits](https://reactbits.dev/) for tracking dorm accountability scenarios.
+The UI leans on an adapted `BlurText` component from the React Bits library to add animated section prompts.
+
+## Getting started
+
+```bash
+npm install
+npm run dev
+```
+
+The development server listens on port `5173` by default. Visit `http://localhost:5173` to explore the dashboard.
+
+## Available scripts
+
+- `npm run dev` – start the Vite development server.
+- `npm run build` – generate an optimized production build in `dist/`.
+- `npm run preview` – preview the built assets locally.
+
+## Cloudflare Worker
+
+A `worker.js` file is included for serving the static assets with Cloudflare Workers. The repository ships with a
+`wrangler.toml` that binds the `dist/` output directory as `__STATIC_CONTENT` and runs `npm run build` automatically
+before each deploy.
+
+The worker reads the generated Vite manifest and rewrites the development `<script type="module" src="/src/main.jsx">`
+tag to the hashed production bundle at runtime. This ensures the browser receives a real JavaScript module even if the
+HTML file still references the development entry, preventing the `text/jsx` MIME type error seen previously.
+
+```bash
+wrangler deploy
+```
+
+The command above builds the assets, uploads the `dist/` contents, and deploys the Worker in one step.

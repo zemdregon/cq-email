@@ -1,0 +1,10 @@
+name = "manor-accountability"
+main = "worker.js"
+compatibility_date = "2024-09-19"
+
+[assets]
+binding = "__STATIC_CONTENT"
+directory = "./dist"
+
+[build]
+command = "npm run build"
