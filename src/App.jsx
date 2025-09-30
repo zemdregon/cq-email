@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { BlurText } from './components/BlurText.jsx';
+import redwolvesImage from '../redwolves.jpg';
 
 const manorOptions = ['Holbrook', 'Smith'];
 const rankOptions = ['E-1', 'E-2', 'E-3', 'E-4'];
@@ -60,8 +61,8 @@ const stepTitles = {
   notDetails: 'Offline confirmations',
   phasePrompt: 'Phase discrepancies',
   phaseDetails: 'Phase discrepancy details',
-  outPrompt: 'Outprocessed roster review',
-  outDetails: 'Outprocessed details',
+  outPrompt: 'Out-processing roster review',
+  outDetails: 'Out-processing details',
   notes: 'Additional notes',
   preparer: 'Prepared by'
 };
@@ -151,9 +152,6 @@ export default function App() {
     }
   };
 
-  const cardIntro =
-    'Track accountability updates, roster discrepancies, and current statuses across Holbrook & Smith manors with clarity.';
-
   const canGoNext = step => {
     switch (step) {
       case 'manor':
@@ -192,9 +190,9 @@ export default function App() {
             case 'phaseDetails':
               return 'Flag mismatched training phases';
             case 'outPrompt':
-              return 'Are there outprocessed Airmen still on the roster?';
+              return 'Are there out-processing Airmen still on the roster?';
             case 'outDetails':
-              return 'List outprocessed Airmen for removal';
+              return 'List out-processing Airmen for removal';
             case 'notes':
               return 'Add any additional notes or reminders';
             case 'preparer':
@@ -208,7 +206,7 @@ export default function App() {
         {(() => {
           switch (activeStep) {
             case 'manor':
-              return 'Select the dorm or manor you are responsible for right now.';
+              return 'Select the dorm you are responsible for right now.';
             case 'latePrompt':
               return 'Let us know if anyone checked in after the scheduled accountability time.';
             case 'lateDetails':
@@ -222,9 +220,9 @@ export default function App() {
             case 'phaseDetails':
               return 'Provide the room number and actual phase so the roster can be updated.';
             case 'outPrompt':
-              return 'Let us know if anyone has outprocessed but is still appearing on the roster.';
+              return 'Let us know if anyone has completed out-processing but is still appearing on the roster.';
             case 'outDetails':
-              return 'Log who should be removed and the date their outprocessing was confirmed.';
+              return 'Log who should be removed and the date their out-processing was confirmed.';
             case 'notes':
               return 'Write quick reminders, follow-ups, or anything leadership should be aware of.';
             case 'preparer':
@@ -301,7 +299,9 @@ export default function App() {
             <div className="control-group">
               {lateAccounted.map((entry, index) => (
                 <div className="list-entry" key={`late-${index}`}>
-                  <span className="entry-index">#{index + 1}</span>
+                  <div className="entry-header">
+                    <span className="entry-index">#{index + 1}</span>
+                  </div>
                   <div className="field-grid">
                     <div className="field">
                       <label htmlFor={`late-last-${index}`}>Last Name</label>
@@ -363,7 +363,7 @@ export default function App() {
                       id={`late-notes-${index}`}
                       value={entry.notes}
                       onChange={event => updateEntries(lateAccounted, setLateAccounted, index, 'notes', event.target.value)}
-                      placeholder="Contacted by CQ runner, returned at 2130."
+                      placeholder="Optional."
                     />
                   </div>
                   <div className="entry-actions">
@@ -640,7 +640,7 @@ export default function App() {
               ))}
               <div className="add-row">
                 <button className="button secondary" type="button" onClick={() => setOutprocessed([...outprocessed, createOutprocessedEntry()])}>
-                  Add out-processed Airman
+                  Add out-processing Airman
                 </button>
               </div>
             </div>
@@ -743,16 +743,18 @@ export default function App() {
       <div className="layout">
         <section className="hero-card">
           <div className="hero-content">
-            <BlurText text="Accountability Dashboard" className="hero-title" animateBy="words" />
-            <p className="section-description">{cardIntro}</p>
-            <div className="hero-progress">
-              <div className="progress-meta">
-                <span>Step {currentPosition}</span>
-                <span>{stepTitles[activeStep]}</span>
-                <span>{totalSteps} total</span>
-              </div>
-              <div className="progress-track">
-                <div className="progress-fill" style={{ width: `${progress}%` }} />
+            <img src={redwolvesImage} alt="Red Wolves emblem" className="hero-logo" />
+            <div className="hero-body">
+              <BlurText text="Accountability Template" className="hero-title" animateBy="words" />
+              <div className="hero-progress">
+                <div className="progress-meta">
+                  <span>Step {currentPosition}</span>
+                  <span>{stepTitles[activeStep]}</span>
+                  <span>{totalSteps} total</span>
+                </div>
+                <div className="progress-track">
+                  <div className="progress-fill" style={{ width: `${progress}%` }} />
+                </div>
               </div>
             </div>
           </div>
