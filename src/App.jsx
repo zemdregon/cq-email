@@ -301,7 +301,7 @@ export default function App() {
                   <div className="entry-header">
                     <span className="entry-index">#{index + 1}</span>
                   </div>
-                  <div className="field-grid field-grid--five">
+                  <div className="field-grid field-grid--five field-grid--late">
                     <div className="field">
                       <label htmlFor={`late-last-${index}`}>Last Name</label>
                       <input
