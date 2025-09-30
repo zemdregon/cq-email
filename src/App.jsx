@@ -181,21 +181,21 @@ export default function App() {
             case 'lateDetails':
               return 'Document late but accounted Airmen';
             case 'notPrompt':
-              return 'Do you need to list Airmen accounted for but missing from the system?';
+              return 'Are any Airmen accounted for but not in the system?';
             case 'notDetails':
-              return 'Record offline confirmations';
+              return 'Record Airmen not in system';
             case 'phasePrompt':
-              return 'Are there any phase discrepancies to report?';
+              return 'Are any Airmen in the wrong phase in the system?';
             case 'phaseDetails':
-              return 'Flag mismatched training phases';
+              return 'Report mismatched training phases';
             case 'outPrompt':
-              return 'Are there out-processing Airmen still on the roster?';
+              return 'Are there out-processed Airmen still on the roster?';
             case 'outDetails':
-              return 'List out-processing Airmen for removal';
+              return 'List out-processed Airmen for removal';
             case 'notes':
-              return 'Add any additional notes or reminders';
+              return 'Add any additional notes or reminders (add a new note for each item)';
             case 'preparer':
-              return 'Who prepared this accountability snapshot?';
+              return 'Who prepared this accountability report?';
             default:
               return '';
           }
@@ -207,13 +207,13 @@ export default function App() {
             case 'manor':
               return 'Select the dorm you are responsible for right now.';
             case 'latePrompt':
-              return 'Let us know if anyone checked in after the scheduled accountability time.';
+              return 'Report if anyone checked in after the scheduled accountability time for their phase.';
             case 'lateDetails':
-              return 'Capture who arrived late, when they checked in, where they stay, and any context you gathered.';
+              return 'Capture who arrived late, when they checked in, where they stay, and any reasoning for why they were late.';
             case 'notPrompt':
-              return 'Confirm whether you need to document Airmen who are present but not showing in the system roster.';
+              return 'Confirm whether you need to document Airmen who are present but not showing in the accountability roster.';
             case 'notDetails':
-              return 'List the roster information for Airmen accounted for offline so the system can be corrected.';
+              return 'List the accountability information for Airmen accounted for not in the system so it can be updated.';
             case 'phasePrompt':
               return 'Identify if any Airmen are listed in a different phase than their current status.';
             case 'phaseDetails':
@@ -221,7 +221,7 @@ export default function App() {
             case 'outPrompt':
               return 'Let us know if anyone has completed out-processing but is still appearing on the roster.';
             case 'outDetails':
-              return 'Log who should be removed and the date their out-processing was confirmed.';
+              return 'Log who should be removed and the date their out-processing was completed.';
             case 'notes':
               return 'Write quick reminders, follow-ups, or anything leadership should be aware of.';
             case 'preparer':
