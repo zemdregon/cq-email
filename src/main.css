@@ -198,6 +198,10 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
 }
 
+.field-grid--five {
+  grid-template-columns: repeat(5, minmax(130px, 1fr));
+}
+
 .field {
   display: flex;
   flex-direction: column;
@@ -374,6 +378,10 @@ body {
   }
 
   .field-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .field-grid--five {
     grid-template-columns: 1fr;
   }
 

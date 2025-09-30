@@ -3,9 +3,8 @@ import { BlurText } from './components/BlurText.jsx';
 import redwolvesImage from '../redwolves.jpg';
 
 const manorOptions = ['Holbrook', 'Smith'];
-const rankOptions = ['E-1', 'E-2', 'E-3', 'E-4'];
+const rankOptions = ['AB', 'AMN', 'A1C', 'SrA'];
 const phaseOptions = ['Remedial', 'Phase I', 'Phase II', 'Phase III'];
-const memberRankOptions = ['AB', 'AMN', 'A1C', 'SrA'];
 
 const createLateEntry = () => ({
   lastName: '',
@@ -84,7 +83,7 @@ export default function App() {
     lastName: '',
     middleInitial: '',
     firstName: '',
-    rank: memberRankOptions[0]
+    rank: rankOptions[0]
   });
 
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
@@ -302,7 +301,7 @@ export default function App() {
                   <div className="entry-header">
                     <span className="entry-index">#{index + 1}</span>
                   </div>
-                  <div className="field-grid">
+                  <div className="field-grid field-grid--five">
                     <div className="field">
                       <label htmlFor={`late-last-${index}`}>Last Name</label>
                       <input
@@ -363,7 +362,7 @@ export default function App() {
                       id={`late-notes-${index}`}
                       value={entry.notes}
                       onChange={event => updateEntries(lateAccounted, setLateAccounted, index, 'notes', event.target.value)}
-                      placeholder="Optional."
+                      placeholder="Optional"
                     />
                   </div>
                   <div className="entry-actions">
@@ -501,7 +500,7 @@ export default function App() {
               {phaseMismatches.map((entry, index) => (
                 <div className="list-entry" key={`phase-${index}`}>
                   <span className="entry-index">#{index + 1}</span>
-                  <div className="field-grid">
+                  <div className="field-grid field-grid--five">
                     <div className="field">
                       <label htmlFor={`phase-last-${index}`}>Last Name</label>
                       <input
@@ -721,7 +720,7 @@ export default function App() {
                   value={preparer.rank}
                   onChange={event => setPreparer(prev => ({ ...prev, rank: event.target.value }))}
                 >
-                  {memberRankOptions.map(option => (
+                  {rankOptions.map(option => (
                     <option key={option} value={option}>
                       {option}
                     </option>
