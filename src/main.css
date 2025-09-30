@@ -202,6 +202,10 @@ body {
   grid-template-columns: repeat(5, minmax(130px, 1fr));
 }
 
+.field-grid--late {
+  grid-template-columns: 1.25fr 1.25fr 0.9fr 0.6fr 1.4fr;
+}
+
 .field {
   display: flex;
   flex-direction: column;
