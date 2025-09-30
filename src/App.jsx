@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { BlurText } from './components/BlurText.jsx';
 import redwolvesImage from '../redwolves.jpg';
 
@@ -38,6 +38,118 @@ const createOutprocessedEntry = () => ({
 
 const createNoteEntry = () => ({ id: crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`, text: '' });
 
+const formatSubjectDate = date => {
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    day: '2-digit',
+    month: 'short'
+  });
+  return formatter
+    .format(date)
+    .replace(',', '')
+    .replace(/^0/, '');
+};
+
+const escapeHtml = value =>
+  value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+
+const formatAccountedTime = value => {
+  if (!value) {
+    return '';
+  }
+
+  const [hours, minutes] = value.split(':').map(Number);
+  if (Number.isNaN(hours) || Number.isNaN(minutes)) {
+    return value;
+  }
+
+  const date = new Date();
+  date.setHours(hours);
+  date.setMinutes(minutes);
+
+  return new Intl.DateTimeFormat('en-US', {
+    hour: 'numeric',
+    minute: '2-digit'
+  }).format(date);
+};
+
+const formatOutprocessedDate = value => {
+  if (!value) {
+    return '';
+  }
+
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return value;
+  }
+
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric'
+  }).format(date);
+};
+
+const buildBulletSection = (entries, { htmlFormatter, textFormatter, includeNotes = false }) => {
+  const trimmedEntries = entries.filter(entry =>
+    Object.values(entry)
+      .map(value => (typeof value === 'string' ? value.trim() : value))
+      .some(Boolean)
+  );
+
+  if (trimmedEntries.length === 0) {
+    return {
+      html: '<p><em>None reported.</em></p>',
+      text: 'None reported.'
+    };
+  }
+
+  const htmlItems = [];
+  const textItems = [];
+
+  trimmedEntries.forEach(entry => {
+    const mainHtml = htmlFormatter(entry);
+    const mainText = textFormatter(entry);
+
+    if (!mainHtml || !mainText) {
+      return;
+    }
+
+    let entryHtml = `<li>${mainHtml}`;
+    let entryText = `• ${mainText}`;
+
+    if (includeNotes && entry.notes && entry.notes.trim().length > 0) {
+      const note = escapeHtml(entry.notes.trim());
+      entryHtml += `
+        <ul style="margin: 0.35em 0 0.5em 1.2em; padding-left: 1em;">
+          <li>Note: ${note}</li>
+        </ul>`;
+      entryText += `
+   ◦ Note: ${entry.notes.trim()}`;
+    }
+
+    entryHtml += '</li>';
+    htmlItems.push(entryHtml);
+    textItems.push(entryText);
+  });
+
+  if (htmlItems.length === 0) {
+    return {
+      html: '<p><em>None reported.</em></p>',
+      text: 'None reported.'
+    };
+  }
+
+  return {
+    html: `<ul style="margin: 0.35em 0 0.75em 1.4em; padding-left: 1em;">${htmlItems.join('')}</ul>`,
+    text: textItems.join('\n')
+  };
+};
+
 const stepOrder = [
   'manor',
   'latePrompt',
@@ -74,6 +186,12 @@ export default function App() {
   const [outprocessed, setOutprocessed] = useState([]);
   const [notes, setNotes] = useState([]);
 
+  const [emailSubject, setEmailSubject] = useState('');
+  const [emailBodyHtml, setEmailBodyHtml] = useState('');
+  const [emailBodyText, setEmailBodyText] = useState('');
+  const [showPreview, setShowPreview] = useState(false);
+  const [copyStatus, setCopyStatus] = useState({ subject: '', body: '' });
+
   const [includeLate, setIncludeLate] = useState(null);
   const [includeNotInSystem, setIncludeNotInSystem] = useState(null);
   const [includePhase, setIncludePhase] = useState(null);
@@ -87,6 +205,7 @@ export default function App() {
   });
 
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
+  const copyTimers = useRef({});
 
   const isStepEnabled = step => {
     switch (step) {
@@ -737,6 +856,247 @@ export default function App() {
 
   const isLastStep = activeStep === 'preparer';
 
+  const handleCopyStatus = (field, message) => {
+    if (copyTimers.current[field]) {
+      clearTimeout(copyTimers.current[field]);
+    }
+
+    setCopyStatus(prev => ({ ...prev, [field]: message }));
+    copyTimers.current[field] = setTimeout(() => {
+      setCopyStatus(prev => ({ ...prev, [field]: '' }));
+    }, 2500);
+  };
+
+  const formatMemberName = ({ rank, lastName, firstName }) => {
+    const cleanRank = rank?.trim();
+    const cleanLast = lastName?.trim();
+    const cleanFirst = firstName?.trim();
+    const parts = [];
+
+    if (cleanRank) {
+      parts.push(cleanRank);
+    }
+
+    if (cleanLast || cleanFirst) {
+      const namePortion = [cleanLast, cleanFirst].filter(Boolean).join(', ');
+      parts.push(namePortion);
+    }
+
+    return parts.join(' ');
+  };
+
+  const formatRoom = room => (room && room.trim().length > 0 ? `Room ${room.trim().toUpperCase()}` : '');
+
+  const formatPhase = phase => (phase && phase.trim().length > 0 ? phase.trim() : '');
+
+  const buildEmailTemplate = () => {
+    const today = new Date();
+    const subjectLine = manor ? `${manor} Accountability ${formatSubjectDate(today)}` : `Accountability ${formatSubjectDate(today)}`;
+
+    const lateSection = includeLate
+      ? buildBulletSection(lateAccounted, {
+          includeNotes: true,
+          htmlFormatter: entry => {
+            const pieces = [formatMemberName(entry), formatRoom(entry.room)];
+            const accounted = formatAccountedTime(entry.timeAccounted);
+            if (accounted) {
+              pieces.push(`Accounted at ${accounted}`);
+            }
+            return pieces
+              .filter(Boolean)
+              .map(piece => escapeHtml(piece))
+              .join(' &bull; ');
+          },
+          textFormatter: entry => {
+            const pieces = [formatMemberName(entry), formatRoom(entry.room)];
+            const accounted = formatAccountedTime(entry.timeAccounted);
+            if (accounted) {
+              pieces.push(`Accounted at ${accounted}`);
+            }
+            return pieces.filter(Boolean).join(' • ');
+          }
+        })
+      : { html: '<p><em>None reported.</em></p>', text: 'None reported.' };
+
+    const notSystemSection = includeNotInSystem
+      ? buildBulletSection(notInSystem, {
+          htmlFormatter: entry => {
+            const pieces = [formatMemberName(entry), formatRoom(entry.room)];
+            return pieces
+              .filter(Boolean)
+              .map(piece => escapeHtml(piece))
+              .join(' &bull; ');
+          },
+          textFormatter: entry => {
+            const pieces = [formatMemberName(entry), formatRoom(entry.room)];
+            return pieces.filter(Boolean).join(' • ');
+          }
+        })
+      : { html: '<p><em>None reported.</em></p>', text: 'None reported.' };
+
+    const phaseSection = includePhase
+      ? buildBulletSection(phaseMismatches, {
+          htmlFormatter: entry => {
+            const pieces = [
+              formatMemberName(entry),
+              formatRoom(entry.room),
+              entry.systemPhase ? `System phase: ${formatPhase(entry.systemPhase)}` : '',
+              entry.actualPhase ? `Actual phase: ${formatPhase(entry.actualPhase)}` : ''
+            ];
+            return pieces.filter(Boolean).join(' &bull; ');
+          },
+          textFormatter: entry => {
+            const pieces = [
+              formatMemberName(entry),
+              formatRoom(entry.room),
+              entry.systemPhase ? `System phase: ${formatPhase(entry.systemPhase)}` : '',
+              entry.actualPhase ? `Actual phase: ${formatPhase(entry.actualPhase)}` : ''
+            ];
+            return pieces.filter(Boolean).join(' • ');
+          }
+        })
+      : { html: '<p><em>None reported.</em></p>', text: 'None reported.' };
+
+    const outprocessedSection = includeOutprocessed
+      ? buildBulletSection(outprocessed, {
+          htmlFormatter: entry => {
+            const pieces = [formatMemberName(entry)];
+            const formattedDate = formatOutprocessedDate(entry.date);
+            if (entry.room && entry.room.trim()) {
+              pieces.push(formatRoom(entry.room));
+            }
+            if (formattedDate) {
+              pieces.push(`Completed out-processing on ${formattedDate}`);
+            }
+            return pieces
+              .filter(Boolean)
+              .map(piece => escapeHtml(piece))
+              .join(' &bull; ');
+          },
+          textFormatter: entry => {
+            const pieces = [formatMemberName(entry)];
+            if (entry.room && entry.room.trim()) {
+              pieces.push(formatRoom(entry.room));
+            }
+            const formattedDate = formatOutprocessedDate(entry.date);
+            if (formattedDate) {
+              pieces.push(`Completed out-processing on ${formattedDate}`);
+            }
+            return pieces.filter(Boolean).join(' • ');
+          }
+        })
+      : { html: '<p><em>None reported.</em></p>', text: 'None reported.' };
+
+    const notesSection = buildBulletSection(
+      notes.filter(note => note.text && note.text.trim().length > 0),
+      {
+        htmlFormatter: entry => (entry.text && entry.text.trim().length > 0 ? escapeHtml(entry.text.trim()) : ''),
+        textFormatter: entry => (entry.text && entry.text.trim().length > 0 ? entry.text.trim() : '')
+      }
+    );
+
+    const middleInitial = preparer.middleInitial?.trim();
+    const formattedNameParts = [
+      preparer.firstName?.trim(),
+      middleInitial ? `${middleInitial}.` : '',
+      preparer.lastName?.trim(),
+      preparer.rank ? `${preparer.rank}, USAF` : 'USAF'
+    ].filter(Boolean);
+    const signatureLine = formattedNameParts.join(' ');
+
+    const htmlBody = [
+      '<p>MTLs,</p>',
+      '<p>The following personnel were late but accounted for:</p>',
+      lateSection.html,
+      '<p>The following personnel were accounted for but not in the system:</p>',
+      notSystemSection.html,
+      '<p>The following personnel were in a different phase in the system:</p>',
+      phaseSection.html,
+      '<p>The following personnel are out-processed but still on the roster:</p>',
+      outprocessedSection.html,
+      '<p>Notes:</p>',
+      notesSection.html,
+      `<p>${escapeHtml(signatureLine)}</p>`,
+      '<p>Head CQ<br />336 TRS<br />Keesler AFB, MS</p>'
+    ].join('\n');
+
+    const textBodyLines = [
+      'MTLs,',
+      '',
+      'The following personnel were late but accounted for:',
+      lateSection.text,
+      '',
+      'The following personnel were accounted for but not in the system:',
+      notSystemSection.text,
+      '',
+      'The following personnel were in a different phase in the system:',
+      phaseSection.text,
+      '',
+      'The following personnel are out-processed but still on the roster:',
+      outprocessedSection.text,
+      '',
+      'Notes:',
+      notesSection.text,
+      '',
+      signatureLine,
+      'Head CQ',
+      '336 TRS',
+      'Keesler AFB, MS'
+    ];
+
+    setEmailSubject(subjectLine);
+    setEmailBodyHtml(htmlBody);
+    setEmailBodyText(textBodyLines.join('\n'));
+    setShowPreview(true);
+
+    if (typeof document !== 'undefined') {
+      setTimeout(() => {
+        const previewElement = document.getElementById('email-preview');
+        if (previewElement) {
+          previewElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 50);
+    }
+  };
+
+  const handleCopySubject = async () => {
+    try {
+      if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(emailSubject);
+        handleCopyStatus('subject', 'Copied!');
+      } else {
+        handleCopyStatus('subject', 'Copy unavailable');
+      }
+    } catch (error) {
+      console.error('Unable to copy subject line', error);
+      handleCopyStatus('subject', 'Copy failed');
+    }
+  };
+
+  const handleCopyBody = async () => {
+    try {
+      if (typeof navigator !== 'undefined') {
+        if (navigator.clipboard?.write && typeof window !== 'undefined' && window.ClipboardItem) {
+          const clipboardItem = new window.ClipboardItem({
+            'text/plain': new Blob([emailBodyText], { type: 'text/plain' }),
+            'text/html': new Blob([emailBodyHtml], { type: 'text/html' })
+          });
+          await navigator.clipboard.write([clipboardItem]);
+        } else if (navigator.clipboard?.writeText) {
+          await navigator.clipboard.writeText(emailBodyText);
+        } else {
+          throw new Error('Clipboard API not available');
+        }
+        handleCopyStatus('body', 'Copied!');
+      } else {
+        handleCopyStatus('body', 'Copy unavailable');
+      }
+    } catch (error) {
+      console.error('Unable to copy email body', error);
+      handleCopyStatus('body', 'Copy failed');
+    }
+  };
+
   return (
     <div className="app-shell">
       <div className="layout">
@@ -776,13 +1136,51 @@ export default function App() {
                 </button>
               )}
               {isLastStep && (
-                <button className="button primary" type="button">
+                <button className="button primary" type="button" onClick={buildEmailTemplate}>
                   Save accountability snapshot
                 </button>
               )}
             </div>
           </div>
         </section>
+        {showPreview && (
+          <section className="glow-card preview-card" id="email-preview">
+            <div className="preview-header">
+              <BlurText text="Email template ready" animateBy="letters" className="preview-label" />
+              <h2 className="preview-title">Copy and paste the accountability email into Outlook</h2>
+              <p className="preview-description">
+                Use the buttons below to copy the subject line and body. The body includes bullet formatting that pastes directly
+                into Outlook.
+              </p>
+            </div>
+            <div className="preview-field">
+              <label htmlFor="email-subject">Subject line</label>
+              <div className="preview-field-controls">
+                <input id="email-subject" value={emailSubject} readOnly />
+                <button className="button secondary" type="button" onClick={handleCopySubject}>
+                  Copy subject
+                </button>
+              </div>
+              {copyStatus.subject && <span className="copy-status">{copyStatus.subject}</span>}
+            </div>
+            <div className="preview-body">
+              <div className="preview-body-header">
+                <span>Email body</span>
+                <div className="preview-body-actions">
+                  <button className="button secondary" type="button" onClick={handleCopyBody}>
+                    Copy formatted body
+                  </button>
+                  {copyStatus.body && <span className="copy-status">{copyStatus.body}</span>}
+                </div>
+              </div>
+              <div className="preview-body-content" dangerouslySetInnerHTML={{ __html: emailBodyHtml }} />
+              <details className="preview-plaintext">
+                <summary>Plain text fallback</summary>
+                <textarea value={emailBodyText} readOnly />
+              </details>
+            </div>
+          </section>
+        )}
       </div>
     </div>
   );
